@@ -1,0 +1,82 @@
+#Python slot machine
+import random
+
+def spin_row():
+    symbols=['🍒','🍋','🍌','🍑','🍏']
+    return ([random.choice(symbols) for symobol in range(3)])
+
+def print_row(row):
+    print(" | ".join(row))
+
+def get_payout(balance,row,bet):
+    if row[0]==row[1]==row[2]:
+        bet*=100
+        balance+=bet
+        print("**************************")
+        print("       You won 🎉🎉🎉    ")
+        print(f"Congratulations with ${bet}")
+        print("**************************")
+        return balance
+    else:
+        print("**************************")
+        print("        You lost          ")
+        print("**************************")
+        return balance
+def main():
+    balance=1000
+
+    print("**************************")
+    print("Welcome to my Python Slot")
+    print("Symbols: 🍒 🍋 🍌 🍑 🍏")
+    print("**************************")
+
+    while balance > 0:
+        print("**************************")
+        print(f"Your balance is:${balance}")
+        print("**************************")
+        bet=input("How much would you like to bet? :")
+
+
+        if not bet.isdigit():
+            print("**************************")
+            print("   Your input is invalid   ")
+            print("**************************")
+            continue
+
+        bet=int(bet)
+        if bet > balance:
+            print("**************************")
+            print("Insufficient funds")
+            print("**************************")
+            continue
+
+        elif bet < 0:
+            print("**************************")
+            print("Bet cannot be less than zero")
+            print("**************************")
+            continue
+
+        balance -= bet  # Deduct the bet from balance
+        row = spin_row()
+        print_row(row)
+        balance = get_payout(balance,row, bet)
+        play_again = input("Do you want to play again?(Y/N)").upper()
+        
+        if not play_again == "Y":
+            print("**************************")
+            print("         Thank you          ")
+            print("**************************")
+            break
+        elif balance == 0:
+            print("**************************")
+            print("Sorry you ran out of money")
+            print("**************************")
+            break
+        else:
+            continue
+
+
+
+
+if __name__=='__main__':
+    main()
